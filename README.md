@@ -13,7 +13,7 @@ Design
 Roadmap
 ---
 - [ ] Nomad
-  - [ ] Get list of releases
+  - [x] Get list of releases
   - [ ] compare to current version
   - [ ] alert
 

@@ -1,7 +1,6 @@
 package main
 import (
   "encoding/json"
-  "fmt"
   "io/ioutil"
   "log"
   "reflect"
@@ -42,10 +41,12 @@ func main() {
     }
     for key, value := range obj {
       if key == "name" {
-        println(value.(string))
+        // Below will show list of strings as it came back
+        // Design decision: trust above order since sort.Strings(tags) will mark 0.8.4-rc1 newer than 0.8.4
+        //println(value.(string))
         tags = append(tags,value.(string))
       }
     }
   }
-  fmt.Printf("%v",tags)
+  println("Latest Nomad Tag: "+tags[0])
 }
