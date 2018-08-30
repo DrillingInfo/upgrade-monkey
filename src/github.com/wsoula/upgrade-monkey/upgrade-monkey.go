@@ -5,6 +5,7 @@ import (
   "log"
   "reflect"
   "net/http"
+  "os"
   "time"
 )
 type people struct {
@@ -12,11 +13,11 @@ type people struct {
 }
 func main() {
   // Nomad
-  println("Latest Nomad Tag: "+githubLatestRelease("hashicorp/nomad"))
+  githubLatestRelease("hashicorp/nomad","NOMAD_VERSION")
   // Hashi-UI
-  println("Latest Hashi-UI Tag: "+githubLatestRelease("jippi/hashi-ui"))
+  githubLatestRelease("jippi/hashi-ui","HASHIUI_VERSION")
   // Consul
-  println("Latest Hashi-UI Tag: "+githubLatestRelease("hashicorp/consul"))
+  githubLatestRelease("hashicorp/consul","CONSUL_VERSION")
 }
 func getUrl(url string) []byte {
   spaceClient := http.Client{
@@ -36,7 +37,7 @@ func getUrl(url string) []byte {
   }
   return body
 }
-func githubLatestRelease(orgrepo string) string {
+func githubLatestRelease(orgrepo string, version_env_var string) string {
   var nomadUrl string = "https://api.github.com/repos/"+orgrepo+"/tags"
   var objs interface{}
   json.Unmarshal([]byte(getUrl(nomadUrl)), &objs)
@@ -59,7 +60,14 @@ func githubLatestRelease(orgrepo string) string {
       }
     }
   }
-  return tags[0]
+  var latest string = tags[0]
+  var current string = os.Getenv(version_env_var)
+  if latest != current {
+    println("Upgrade "+version_env_var+" to "+latest)
+  } else {
+    println(version_env_var+" up-to-date")
+  }
+  return "true"
 }
 func nomad() {
   //githubLatestRelease("hashicorp/nomad")

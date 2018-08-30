@@ -9,13 +9,16 @@ Design
 * different "modules" for each upgradeable piece
   * jenkins "module" goes to find if there are updates for jenkins and does them
   * module could be file or function or separate repo
+* current version is stored in env vars but if this does the upgrade how does it update that
 
 Roadmap
 ---
 - [ ] Nomad
   - [x] Get list of releases
-  - [ ] compare to current version
+  - [x] compare to current version
   - [ ] alert
+- [ ] Hashi-UI
+- [ ] Consul
 
 Repo Notes
 ---
