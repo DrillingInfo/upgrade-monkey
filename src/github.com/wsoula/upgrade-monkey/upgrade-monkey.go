@@ -15,6 +15,8 @@ func main() {
   println("Latest Nomad Tag: "+githubLatestRelease("hashicorp/nomad"))
   // Hashi-UI
   println("Latest Hashi-UI Tag: "+githubLatestRelease("jippi/hashi-ui"))
+  // Consul
+  println("Latest Hashi-UI Tag: "+githubLatestRelease("hashicorp/consul"))
 }
 func getUrl(url string) []byte {
   spaceClient := http.Client{
