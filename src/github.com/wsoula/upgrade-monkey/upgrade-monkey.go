@@ -11,7 +11,10 @@ type people struct {
         Name string `json:"name"`
 }
 func main() {
-  nomad()
+  // Nomad
+  println("Latest Nomad Tag: "+githubLatestRelease("hashicorp/nomad"))
+  // Hashi-UI
+  println("Latest Hashi-UI Tag: "+githubLatestRelease("jippi/hashi-ui"))
 }
 func getUrl(url string) []byte {
   spaceClient := http.Client{
@@ -31,7 +34,14 @@ func getUrl(url string) []byte {
   }
   return body
 }
-func nomadLatestRelease(objArr []interface{}) string {
+func githubLatestRelease(orgrepo string) string {
+  var nomadUrl string = "https://api.github.com/repos/"+orgrepo+"/tags"
+  var objs interface{}
+  json.Unmarshal([]byte(getUrl(nomadUrl)), &objs)
+  objArr, ok := objs.([]interface{})
+  if !ok {
+    log.Fatal("expected an array of objects")
+  }
   var tags []string
   for i, obj := range objArr {
     obj, ok := obj.(map[string]interface{})
@@ -50,12 +60,5 @@ func nomadLatestRelease(objArr []interface{}) string {
   return tags[0]
 }
 func nomad() {
-  var nomadUrl string = "https://api.github.com/repos/hashicorp/nomad/tags"
-  var objs interface{}
-  json.Unmarshal([]byte(getUrl(nomadUrl)), &objs)
-  objArr, ok := objs.([]interface{})
-  if !ok {
-    log.Fatal("expected an array of objects")
-  }
-  println("Latest Nomad Tag: "+nomadLatestRelease(objArr))
+  //githubLatestRelease("hashicorp/nomad")
 }
