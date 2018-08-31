@@ -19,6 +19,10 @@ func main() {
       githubLatestRelease("jippi/hashi-ui",config["HASHI_UI"])
     case "CONSUL":
       githubLatestRelease("hashicorp/consul",config["CONSUL"])
+    case "JENKINS_LTS":
+      jenkinsLTSRelease(config["JENKINS_LTS"])
+    case "JENKINS":
+      jenkinsLatestRelease(config["JENKINS"])
     default:
       println("Unknown type")
     }
