@@ -50,7 +50,7 @@ func getUrl(url string) []byte {
   }
   return body
 }
-func githubLatestRelease(orgrepo string, version_var string) string {
+func githubLatestRelease(orgrepo string, version_var string) bool {
   var nomadUrl string = "https://api.github.com/repos/"+orgrepo+"/tags"
   var objs interface{}
   json.Unmarshal([]byte(getUrl(nomadUrl)), &objs)
@@ -77,10 +77,11 @@ func githubLatestRelease(orgrepo string, version_var string) string {
   var current string = version_var
   if latest != current {
     println("Upgrade "+version_var+" to "+latest)
+    return false
   } else {
     println(version_var+" up-to-date")
+    return true
   }
-  return "true"
 }
 func nomad() {
   //githubLatestRelease("hashicorp/nomad")
