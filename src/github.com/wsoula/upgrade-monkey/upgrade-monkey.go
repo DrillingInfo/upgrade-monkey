@@ -1,23 +1,32 @@
 package main
 import (
+  "bufio"
   "encoding/json"
+  "flag"
   "io/ioutil"
   "log"
-  "reflect"
   "net/http"
   "os"
+  "reflect"
+  "regexp"
+  "strings"
   "time"
 )
 type people struct {
         Name string `json:"name"`
 }
+var config map[string]string
+var conf_file string
 func main() {
+  flag.StringVar(&conf_file, "c", "config.txt", "config file of technologies to check for upgrades")
+  flag.Parse()
+  config = ReadConfig(conf_file)
   // Nomad
-  githubLatestRelease("hashicorp/nomad","NOMAD_VERSION")
+  githubLatestRelease("hashicorp/nomad",config["NOMAD"])
   // Hashi-UI
-  githubLatestRelease("jippi/hashi-ui","HASHIUI_VERSION")
+  githubLatestRelease("jippi/hashi-ui",config["HASHI_UI"])
   // Consul
-  githubLatestRelease("hashicorp/consul","CONSUL_VERSION")
+  githubLatestRelease("hashicorp/consul",config["CONSUL"])
 }
 func getUrl(url string) []byte {
   spaceClient := http.Client{
@@ -37,7 +46,7 @@ func getUrl(url string) []byte {
   }
   return body
 }
-func githubLatestRelease(orgrepo string, version_env_var string) string {
+func githubLatestRelease(orgrepo string, version_var string) string {
   var nomadUrl string = "https://api.github.com/repos/"+orgrepo+"/tags"
   var objs interface{}
   json.Unmarshal([]byte(getUrl(nomadUrl)), &objs)
@@ -61,14 +70,47 @@ func githubLatestRelease(orgrepo string, version_env_var string) string {
     }
   }
   var latest string = tags[0]
-  var current string = os.Getenv(version_env_var)
+  var current string = version_var
   if latest != current {
-    println("Upgrade "+version_env_var+" to "+latest)
+    println("Upgrade "+version_var+" to "+latest)
   } else {
-    println(version_env_var+" up-to-date")
+    println(version_var+" up-to-date")
   }
   return "true"
 }
 func nomad() {
   //githubLatestRelease("hashicorp/nomad")
+}
+func ReadConfig(filename_fullpath string) map[string]string {
+  prg := "ReadConfig()"
+  var options map[string]string
+  options = make(map[string]string)
+  file, err := os.Open(filename_fullpath)
+  if err != nil {
+    log.Printf("%s: os.Open(): %s\n", prg, err)
+    return options
+  }
+  defer file.Close()
+  scanner := bufio.NewScanner(file)
+  for scanner.Scan() {
+    line := scanner.Text()
+    if strings.Contains(line, "=") == true {
+      re, err := regexp.Compile(`([^=]+)=(.*)`)
+      if err != nil {
+        log.Printf("%s: regexp.Compile(): error=%s", prg, err)
+        return options
+      } else {
+        config_option := re.FindStringSubmatch(line)[1]
+        config_value := re.FindStringSubmatch(line)[2]
+        options[config_option] = config_value
+        //log.Printf("%s: out[]: %s ... config_option=%s, config_value=%s\n", prg, line, config_option, config_value)
+      }
+    }
+  }
+  //log.Printf("%s: options[]: %+v\n", prg, options)
+  if err := scanner.Err(); err != nil {
+    log.Printf("%s: scanner.Err(): %s\n", prg, err)
+    return options
+  }
+  return options
 }

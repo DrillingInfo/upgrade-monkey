@@ -9,7 +9,7 @@ Design
 * different "modules" for each upgradeable piece
   * jenkins "module" goes to find if there are updates for jenkins and does them
   * module could be file or function or separate repo
-* current version is stored in env vars but if this does the upgrade how does it update that
+* current version is stored in config file passed to binary with -c flag
 
 Roadmap
 ---
@@ -19,6 +19,7 @@ Roadmap
   - [ ] alert
 - [ ] Hashi-UI
 - [ ] Consul
+- [ ] Denote version locks (Major/Minor/Patch? Minor first Patch (1.1.1 instead of 1.1.0)
 
 Repo Notes
 ---
