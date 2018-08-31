@@ -21,12 +21,16 @@ func main() {
   flag.StringVar(&conf_file, "c", "config.txt", "config file of technologies to check for upgrades")
   flag.Parse()
   config = ReadConfig(conf_file)
-  // Nomad
-  githubLatestRelease("hashicorp/nomad",config["NOMAD"])
-  // Hashi-UI
-  githubLatestRelease("jippi/hashi-ui",config["HASHI_UI"])
-  // Consul
-  githubLatestRelease("hashicorp/consul",config["CONSUL"])
+  for tech := range config {
+    switch tech {
+    case "NOMAD":
+      githubLatestRelease("hashicorp/nomad",config["NOMAD"])
+    case "HASHI_UI":
+      githubLatestRelease("jippi/hashi-ui",config["HASHI_UI"])
+    case "CONSUL":
+      githubLatestRelease("hashicorp/consul",config["CONSUL"])
+    }
+  }
 }
 func getUrl(url string) []byte {
   spaceClient := http.Client{
