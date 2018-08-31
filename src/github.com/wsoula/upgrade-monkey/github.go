@@ -5,9 +5,9 @@ import (
   "reflect"
 )
 func githubLatestRelease(orgrepo string, version_var string) bool {
-  var nomadUrl string = "https://api.github.com/repos/"+orgrepo+"/tags"
+  var url string = "https://api.github.com/repos/"+orgrepo+"/tags"
   var objs interface{}
-  json.Unmarshal([]byte(getUrl(nomadUrl)), &objs)
+  json.Unmarshal([]byte(getUrl(url)), &objs)
   objArr, ok := objs.([]interface{})
   if !ok {
     log.Fatal("expected an array of objects")
