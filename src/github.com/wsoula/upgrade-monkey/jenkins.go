@@ -37,10 +37,10 @@ func jenkinsRelease(version_var string, release_type string) bool {
   var latest string = objs.Items[0].Title[8:]
   var current string = version_var
   if latest != current {
-    println("Upgrade "+version_var+" to "+latest)
+    println("Upgrade Jenkins "+version_var+" to "+latest)
     return false
   } else {
-    println(version_var+" up-to-date")
+    println("Jenkins version "+version_var+" up-to-date")
     return true
   }
 }
