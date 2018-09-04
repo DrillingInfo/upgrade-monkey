@@ -13,13 +13,10 @@ func main() {
   flag.StringVar(&conf_file, "c", "config.txt", "config file of technologies to check for upgrades")
   flag.Parse()
   config = ReadConfig(conf_file)
-  //debug = config["DEBUG"].(bool)
-  //debug = strconv.ParseBool(config["DEBUG"])
   debug, err := strconv.ParseBool(config["DEBUG"])
   if err != nil {
     debug = false
   }
-  //debug = config["DEBUG"].(bool)
   for tech := range config {
     switch tech {
     case "NOMAD":

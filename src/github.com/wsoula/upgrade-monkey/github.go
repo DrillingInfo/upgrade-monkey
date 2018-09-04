@@ -30,7 +30,7 @@ func githubLatestRelease(orgrepo string, version_var string, debug bool) bool {
   var latest string = tags[0]
   var current string = version_var
   if latest != current {
-    println("Upgrade "+orgrepo+" to "+version_var+" to "+latest)
+    println("Upgrade "+orgrepo+" from "+version_var+" to "+latest)
     return false
   } else {
     if debug {
