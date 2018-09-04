@@ -4,7 +4,7 @@ import (
   "log"
   "reflect"
 )
-func githubLatestRelease(orgrepo string, version_var string) bool {
+func githubLatestRelease(orgrepo string, version_var string, debug bool) bool {
   var url string = "https://api.github.com/repos/"+orgrepo+"/tags"
   var objs interface{}
   json.Unmarshal([]byte(getUrl(url)), &objs)
@@ -33,7 +33,9 @@ func githubLatestRelease(orgrepo string, version_var string) bool {
     println("Upgrade "+orgrepo+" to "+version_var+" to "+latest)
     return false
   } else {
-    println(orgrepo+" version "+version_var+" up-to-date")
+    if debug {
+      println(orgrepo+" version "+version_var+" up-to-date")
+    }
     return true
   }
 }

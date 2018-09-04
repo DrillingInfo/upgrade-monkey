@@ -4,13 +4,13 @@ import (
   "fmt"
   "os"
 )
-func jenkinsLatestRelease(version_var string) bool {
-  return jenkinsRelease(version_var,"LATEST")
+func jenkinsLatestRelease(version_var string, debug bool) bool {
+  return jenkinsRelease(version_var,"LATEST",debug)
 }
-func jenkinsLTSRelease(version_var string) bool {
-  return jenkinsRelease(version_var,"LTS")
+func jenkinsLTSRelease(version_var string, debug bool) bool {
+  return jenkinsRelease(version_var,"LTS",debug)
 }
-func jenkinsRelease(version_var string, release_type string) bool {
+func jenkinsRelease(version_var string, release_type string, debug bool) bool {
   type Item struct {
     Title string `xml:"title"`
   }
@@ -40,7 +40,9 @@ func jenkinsRelease(version_var string, release_type string) bool {
     println("Upgrade Jenkins "+version_var+" to "+latest)
     return false
   } else {
-    println("Jenkins version "+version_var+" up-to-date")
+    if debug {
+      println("Jenkins version "+version_var+" up-to-date")
+    }
     return true
   }
 }
