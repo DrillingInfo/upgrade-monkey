@@ -23,6 +23,8 @@ func main() {
       jenkinsLTSRelease(config["JENKINS_LTS"])
     case "JENKINS":
       jenkinsLatestRelease(config["JENKINS"])
+    case "RUNDECK_DOCKER":
+      githubLatestRelease("jjethwa/rundeck",config["RUNDECK_DOCKER"])
     default:
       println("Unknown type")
     }
