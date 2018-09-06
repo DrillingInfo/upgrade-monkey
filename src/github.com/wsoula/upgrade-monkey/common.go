@@ -7,7 +7,7 @@ import (
 )
 func getUrl(url string) []byte {
   spaceClient := http.Client{
-    Timeout: time.Second * 2, // Max of 2 seconds
+    Timeout: time.Second * 10, // Max of 10 seconds
   }
   req, err := http.NewRequest(http.MethodGet, url, nil)
   if err != nil {

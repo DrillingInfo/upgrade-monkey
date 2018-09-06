@@ -1,6 +1,7 @@
 package main
 import (
   "flag"
+  "os"
   "strconv"
 )
 type people struct {
@@ -9,6 +10,7 @@ type people struct {
 var config map[string]string
 var conf_file string
 var debug bool
+var upgrades bool
 func main() {
   flag.StringVar(&conf_file, "c", "config.txt", "config file of technologies to check for upgrades")
   flag.Parse()
@@ -17,24 +19,41 @@ func main() {
   if err != nil {
     debug = false
   }
+  upgrades=false
   for tech := range config {
     switch tech {
     case "NOMAD":
-      githubLatestRelease("hashicorp/nomad",config["NOMAD"],debug)
+      if !githubLatestRelease("hashicorp/nomad",config["NOMAD"],debug) {
+        upgrades=true
+      }
     case "HASHI_UI":
-      githubLatestRelease("jippi/hashi-ui",config["HASHI_UI"],debug)
+      if !githubLatestRelease("jippi/hashi-ui",config["HASHI_UI"],debug) {
+        upgrades=true
+      }
     case "CONSUL":
-      githubLatestRelease("hashicorp/consul",config["CONSUL"],debug)
+      if !githubLatestRelease("hashicorp/consul",config["CONSUL"],debug) {
+        upgrades=true
+      }
     case "JENKINS_LTS":
-      jenkinsLTSRelease(config["JENKINS_LTS"],debug)
+      if !jenkinsLTSRelease(config["JENKINS_LTS"],debug) {
+        upgrades=true
+      }
     case "JENKINS":
-      jenkinsLatestRelease(config["JENKINS"],debug)
+      if !jenkinsLatestRelease(config["JENKINS"],debug) {
+        upgrades=true
+      }
     case "RUNDECK_DOCKER":
-      githubLatestRelease("jjethwa/rundeck",config["RUNDECK_DOCKER"],debug)
+      if !githubLatestRelease("jjethwa/rundeck",config["RUNDECK_DOCKER"],debug) {
+        upgrades=true
+      }
     case "DEBUG":
     default:
       println("Unknown type "+tech)
+      os.Exit(1)
     }
+  }
+  if !upgrades {
+    println("No upgrades to do")
   }
 }
 func nomad() {
