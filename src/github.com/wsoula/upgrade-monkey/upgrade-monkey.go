@@ -46,6 +46,10 @@ func main() {
       if !githubLatestRelease("jjethwa/rundeck",config["RUNDECK_DOCKER"],debug) {
         upgrades=true
       }
+    case "JAEGER":
+      if !githubLatestRelease("jaegertracing/jaeger",config["JAEGER"],debug) {
+        upgrades=true
+      }
     case "DEBUG":
     default:
       println("Unknown type "+tech)
