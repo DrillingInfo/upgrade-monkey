@@ -50,6 +50,10 @@ func main() {
       if !githubLatestRelease("jaegertracing/jaeger",config["JAEGER"],debug) {
         upgrades=true
       }
+    case "ATHENS":
+      if !githubLatestRelease("gomods/athens",config["ATHENS"],debug) {
+        upgrades=true
+      }
     case "DEBUG":
     default:
       println("Unknown type "+tech)
