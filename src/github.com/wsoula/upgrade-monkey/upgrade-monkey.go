@@ -26,12 +26,16 @@ func main() {
       if !githubLatestRelease("hashicorp/nomad",config["NOMAD"],debug) {
         upgrades=true
       }
-    case "HASHI_UI":
-      if !githubLatestRelease("jippi/hashi-ui",config["HASHI_UI"],debug) {
-        upgrades=true
-      }
     case "CONSUL":
       if !githubLatestRelease("hashicorp/consul",config["CONSUL"],debug) {
+        upgrades=true
+      }
+    case "TERRAFORM":
+      if !githubLatestRelease("hashicorp/terraform",config["TERRAFORM"],debug) {
+        upgrades=true
+      }
+    case "HASHI_UI":
+      if !githubLatestRelease("jippi/hashi-ui",config["HASHI_UI"],debug) {
         upgrades=true
       }
     case "JENKINS_LTS":
