@@ -58,6 +58,10 @@ func main() {
       if !githubLatestRelease("gomods/athens",config["ATHENS"],debug) {
         upgrades=true
       }
+    case "ATLANTIS":
+      if !githubLatestRelease("runatlantis/atlantis",config["ATLANTIS"],debug) {
+        upgrades=true
+      }
     case "DEBUG":
     default:
       println("Unknown type "+tech)
