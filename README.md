@@ -13,12 +13,7 @@ Design
 
 Roadmap
 ---
-- [ ] Nomad
-  - [x] Get list of releases
-  - [x] compare to current version
-  - [ ] alert
-- [ ] Hashi-UI
-- [ ] Consul
+- [ ] alert
 - [ ] Denote version locks (Major/Minor/Patch? Minor first Patch (1.1.1 instead of 1.1.0)
 
 Repo Notes
