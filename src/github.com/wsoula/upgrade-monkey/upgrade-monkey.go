@@ -30,6 +30,10 @@ func main() {
       if !githubLatestRelease("runatlantis/atlantis",config["ATLANTIS"],debug) {
         upgrades=true
       }
+    case "CEREBRO":
+      if !githubLatestRelease("lmenezes/cerebro",config["CEREBRO"],debug) {
+        upgrades=true
+      }
     case "CONSUL":
       if !githubLatestRelease("hashicorp/consul",config["CONSUL"],debug) {
         upgrades=true
